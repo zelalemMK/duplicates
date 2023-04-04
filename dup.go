@@ -16,9 +16,7 @@ func main() {
 	files := os.Args[1:]
 
 	if len(files) == 0 {
-		// noFileName := FileWithDup{FileName: ""}
-		// countLinesStdin(os.Stdin, noFileName.Counts)
-		fmt.Println("No file input")
+		fmt.Fprint(os.Stderr, "No file input\n")
 	} else {
 		for _, arg := range files {
 			f, err := os.Open(arg)
