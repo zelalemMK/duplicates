@@ -27,8 +27,8 @@ var prereq = map[string][]string{
 }
 
 func main() {
-	filename, _, _ := fetch("https://www.example.com")
-	fmt.Println(filename)
+	filename, _, err := fetch("https://www.google.com")
+	fmt.Println(filename, err)
 }
 
 func fetch(url string) (filename string, n int64, err error) {
@@ -36,12 +36,15 @@ func fetch(url string) (filename string, n int64, err error) {
 	if err != nil {
 		return "", 0, err
 	}
-	defer resp.Body.Close()
 
-	local := path.Base(resp.Request.RequestURI)
-	if local == "/" {
+	defer resp.Body.Close()
+	fmt.Println(url, "opened")
+	fmt.Println(resp.Request.URL.Path)
+	local := path.Base(resp.Request.URL.Path)
+	if local == "/" || local == "." {
 		local = "index.html"
 	}
+	fmt.Println(local, "is the file name")
 	f, err := os.Create(local)
 	if err != nil {
 		return "", 0, err
